@@ -1,0 +1,449 @@
+/* ════════════════════════════════════════════════════════════════
+   TCC · Sistema de Recomendação de Filmes
+   Folha de estilo — modo escuro acadêmico
+   Aplicada via st.markdown(unsafe_allow_html=True) — não muda lógica.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface2:  #1c2230;
+  --border:    #262d39;
+  --border-hi: #3a4453;
+  --text:      #e8ecf2;
+  --text-dim:  #9aa4b2;
+  --text-mute: #6b7484;
+
+  --gold:       #f2b544;
+  --gold-deep:  #c98e1f;
+  --teal:       #4cc9c0;
+  --svd:        #8aa9ff;  /* azul Filtragem Colaborativa */
+  --cb:         #c896f0;  /* violeta TF-IDF */
+  --pos:        #5bd29b;
+  --neg:        #f0708b;
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans:    "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-card:   12px;
+  --radius-btn:    8px;
+  --ease:          cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   APP & SIDEBAR
+   ════════════════════════════════════════════════════════════════ */
+
+.stApp {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+[data-testid="stSidebar"] {
+  background-color: #0a0d12;
+  border-right: 1px solid var(--border);
+}
+
+[data-testid="stSidebar"] > div { padding-top: 1rem; }
+
+[data-testid="stHeader"] {
+  background: transparent;
+}
+
+/* Bloco principal — limita a largura e dá respiro */
+.main .block-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  max-width: 1400px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TIPOGRAFIA
+   ════════════════════════════════════════════════════════════════ */
+
+/* Título principal (st.title) — serif editorial */
+h1, .stApp h1 {
+  font-family: var(--font-display) !important;
+  font-weight: 400 !important;
+  font-size: 2.6rem !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.05 !important;
+  color: var(--text) !important;
+  margin-bottom: 0.3rem !important;
+}
+
+/* Subtítulos (st.subheader) */
+h2, .stApp h2 {
+  font-family: var(--font-display) !important;
+  font-weight: 400 !important;
+  font-size: 1.7rem !important;
+  letter-spacing: -0.01em !important;
+  color: var(--text) !important;
+}
+
+/* h3, h4 (st.markdown #### ) — sans, mais "UI" */
+h3, .stApp h3 {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 1.05rem !important;
+  color: var(--text) !important;
+  letter-spacing: -0.005em !important;
+}
+h4, .stApp h4 {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  color: var(--text) !important;
+}
+
+/* Caption (st.caption) — kicker em mono/teal */
+[data-testid="stCaptionContainer"],
+.stCaption,
+small {
+  color: var(--text-dim) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.82rem !important;
+}
+
+/* Texto comum em markdown */
+.stMarkdown p, .stMarkdown li {
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* Código inline (`...`) — usado nos badges de gênero */
+.stMarkdown code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.78rem !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-dim) !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   CONTAINERS COM BORDA (st.container(border=True))
+   Cards de filme e perfil
+   ════════════════════════════════════════════════════════════════ */
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 1rem 1.1rem !important;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 1px 2px rgba(0, 0, 0, 0.4);
+  transition: border-color .18s var(--ease),
+              box-shadow .18s var(--ease),
+              transform .18s var(--ease);
+}
+
+/* Hover sutil — eleva o card */
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+  border-color: var(--border-hi) !important;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 8px 24px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   BOTÕES
+   ════════════════════════════════════════════════════════════════ */
+
+.stButton > button,
+.stDownloadButton > button,
+.stFormSubmitButton > button {
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  font-size: 0.85rem !important;
+  border-radius: var(--radius-btn) !important;
+  border: 1px solid var(--border) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text) !important;
+  padding: 0.45rem 0.9rem !important;
+  transition: all .15s var(--ease);
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+.stFormSubmitButton > button:hover {
+  border-color: var(--border-hi) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  transform: translateY(-1px);
+}
+
+/* Botão primário (type="primary") — dourado */
+button[kind="primary"],
+.stButton > button[kind="primary"],
+.stFormSubmitButton > button[kind="primary"] {
+  background: var(--gold) !important;
+  color: #1a1207 !important;
+  border: 1px solid transparent !important;
+  font-weight: 600 !important;
+}
+button[kind="primary"]:hover {
+  background: var(--gold) !important;
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(242, 181, 68, 0.25);
+}
+
+/* Popover (Curtir → slider) */
+[data-testid="stPopover"] > div > button {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-radius: var(--radius-btn) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   INPUTS (text, number, select, multiselect)
+   ════════════════════════════════════════════════════════════════ */
+
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stSelectbox [data-baseweb="select"] > div,
+.stMultiSelect [data-baseweb="select"] > div {
+  background: var(--surface) !important;
+  border: 1px solid var(--border-hi) !important;
+  border-radius: var(--radius-btn) !important;
+  color: var(--text) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.88rem !important;
+}
+
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stTextArea textarea:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(242, 181, 68, 0.12) !important;
+}
+
+/* Tags do multiselect (gêneros escolhidos) */
+[data-baseweb="tag"] {
+  background: rgba(242, 181, 68, 0.14) !important;
+  color: var(--gold) !important;
+  border: 1px solid rgba(242, 181, 68, 0.4) !important;
+  border-radius: 999px !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SLIDER (nota Curtir + idade)
+   O Streamlit usa BaseWeb — precisamos pegar várias camadas
+   ════════════════════════════════════════════════════════════════ */
+
+/* Track completo (cinza de fundo) */
+.stSlider [data-baseweb="slider"] div[role="presentation"] > div {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Track preenchido (a parte colorida até o thumb) */
+.stSlider [data-baseweb="slider"] div[role="presentation"] > div > div {
+  background: var(--gold) !important;
+}
+
+/* Thumb (a "bolinha" arrastável) */
+.stSlider [data-baseweb="slider"] [role="slider"] {
+  background-color: var(--gold) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 4px rgba(242, 181, 68, 0.2) !important;
+}
+
+/* Label do valor acima/abaixo do thumb */
+.stSlider [data-baseweb="slider"] [data-testid="stTickBarMin"],
+.stSlider [data-baseweb="slider"] [data-testid="stTickBarMax"],
+.stSlider [data-baseweb="slider"] [role="slider"] + div {
+  color: var(--gold) !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* Fallback agressivo — qualquer span vermelho dentro do slider */
+.stSlider * {
+  --primary-color: var(--gold) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RADIO & CHECKBOX (modo de exibição, métricas)
+   O Streamlit usa BaseWeb com cor vermelha padrão — sobrescrever
+   ════════════════════════════════════════════════════════════════ */
+
+.stRadio > div { gap: 0.25rem !important; }
+.stRadio label {
+  font-family: var(--font-sans) !important;
+  font-size: 0.85rem !important;
+  color: var(--text-dim) !important;
+  padding: 0.35rem 0 !important;
+}
+.stRadio label:has(input:checked) {
+  color: var(--text) !important;
+}
+.stCheckbox label {
+  font-family: var(--font-sans) !important;
+  font-size: 0.85rem !important;
+  color: var(--text-dim) !important;
+}
+
+/* Radio — círculo externo */
+.stRadio [role="radiogroup"] [data-baseweb="radio"] > div:first-child {
+  background: transparent !important;
+  border: 1.5px solid var(--border-hi) !important;
+}
+
+/* Radio — círculo SELECIONADO (era vermelho) */
+.stRadio [role="radiogroup"] [data-baseweb="radio"]:has(input:checked) > div:first-child,
+.stRadio [role="radiogroup"] [data-baseweb="radio"][aria-checked="true"] > div:first-child {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+}
+
+/* Checkbox — caixa externa */
+.stCheckbox [data-baseweb="checkbox"] > span:first-child {
+  background: transparent !important;
+  border: 1.5px solid var(--border-hi) !important;
+  border-radius: 4px !important;
+}
+
+/* Checkbox — caixa MARCADA (era vermelho) */
+.stCheckbox [data-baseweb="checkbox"]:has(input:checked) > span:first-child,
+.stCheckbox [data-baseweb="checkbox"][aria-checked="true"] > span:first-child {
+  background: var(--teal) !important;
+  border-color: var(--teal) !important;
+}
+
+/* Fallback global — qualquer SVG/marca dentro de radio/checkbox marcados */
+.stRadio [role="radiogroup"] [data-baseweb="radio"]:has(input:checked) svg,
+.stCheckbox [data-baseweb="checkbox"]:has(input:checked) svg {
+  fill: #1a1207 !important;
+  color: #1a1207 !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MÉTRICAS (st.metric)
+   ════════════════════════════════════════════════════════════════ */
+
+[data-testid="stMetric"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 0.9rem 1.1rem !important;
+}
+
+[data-testid="stMetricLabel"] {
+  color: var(--text-mute) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+[data-testid="stMetricValue"] {
+  font-family: var(--font-mono) !important;
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+  color: var(--gold) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   EXPANDER (watchlist / avaliados)
+   ════════════════════════════════════════════════════════════════ */
+
+[data-testid="stExpander"] {
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-card) !important;
+}
+
+[data-testid="stExpander"] summary {
+  font-family: var(--font-sans) !important;
+  font-size: 0.9rem !important;
+  color: var(--text) !important;
+  padding: 0.7rem 1rem !important;
+}
+
+[data-testid="stExpander"] summary:hover {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ALERTAS (info, warning, success, error)
+   ════════════════════════════════════════════════════════════════ */
+
+[data-testid="stAlert"] {
+  border-radius: var(--radius-card) !important;
+  border: 1px solid var(--border) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.85rem !important;
+}
+
+/* info — teal */
+div[data-baseweb="notification"][kind="info"],
+[data-testid="stAlert"][kind="info"] {
+  background: rgba(76, 201, 192, 0.06) !important;
+  border-color: rgba(76, 201, 192, 0.3) !important;
+  color: var(--text) !important;
+}
+
+/* warning — gold */
+div[data-baseweb="notification"][kind="warning"],
+[data-testid="stAlert"][kind="warning"] {
+  background: rgba(242, 181, 68, 0.06) !important;
+  border-color: rgba(242, 181, 68, 0.3) !important;
+}
+
+/* success — pos */
+[data-testid="stAlert"][kind="success"] {
+  background: rgba(91, 210, 155, 0.06) !important;
+  border-color: rgba(91, 210, 155, 0.3) !important;
+}
+
+/* error — neg */
+[data-testid="stAlert"][kind="error"] {
+  background: rgba(240, 112, 139, 0.06) !important;
+  border-color: rgba(240, 112, 139, 0.3) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   POSTER DE FILME (st.image)
+   ════════════════════════════════════════════════════════════════ */
+
+.stImage > img {
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SCROLLBAR (sutil, escura)
+   ════════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-hi); }
+
+/* ════════════════════════════════════════════════════════════════
+   DIVISORES (st.markdown("---"))
+   ════════════════════════════════════════════════════════════════ */
+
+hr { border-color: var(--border) !important; opacity: 1 !important; }
+
+/* ════════════════════════════════════════════════════════════════
+   STATUS / SPINNER (treinamento SVD)
+   ════════════════════════════════════════════════════════════════ */
+
+[data-testid="stStatusWidget"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-card) !important;
+}
